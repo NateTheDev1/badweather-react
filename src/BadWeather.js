@@ -1,7 +1,15 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
-import { AppBar, Toolbar, Typography, Paper, Grid } from "@material-ui/core";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Paper,
+  Grid,
+  CssBaseline
+} from "@material-ui/core";
 import Current from "./Current";
+import Weather from "./Weather";
 
 const styles = {
   root: {
@@ -22,13 +30,18 @@ const styles = {
 class BadWeather extends Component {
   constructor(props) {
     super(props);
-    this.state = { location: 49441 };
+    this.state = { zip: "49441", country: "" };
   }
+
+  updateWeather = (zip, country) => {
+    this.setState({ zip: zip, country: country });
+  };
 
   render() {
     const { classes } = this.props;
     return (
       <Paper className={classes.root} elevation={0}>
+        <CssBaseline />
         <AppBar color="primary" position="static" className={classes.nav}>
           <Toolbar>
             <Typography color="inherit">BadWeather</Typography>
@@ -41,10 +54,10 @@ class BadWeather extends Component {
           className={classes.container}
         >
           <Grid item xs={12} md={8} lg={4} className={classes.form}>
-            <Current />
+            <Current location={this.state.zip} update={this.updateWeather} />
           </Grid>
-          <Grid item xs={12} md={8} lg={8} margin>
-            <h1>Hello</h1>
+          <Grid item xs={12} md={8} lg={8}>
+            <Weather />
           </Grid>
         </Grid>
       </Paper>
