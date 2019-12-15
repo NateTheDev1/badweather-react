@@ -9,6 +9,12 @@ function Current({ location, update }) {
   const [zip, zipChange, resetZip] = useInputState(location);
   const [country, countryChange, resetCountry] = useInputState("US");
 
+  const formSubmission = e => {
+    e.preventDefault();
+    update(zip, country);
+    resetCountry();
+    resetZip();
+  };
   return (
     <Paper
       style={{
@@ -21,7 +27,7 @@ function Current({ location, update }) {
       <Typography variant="h4" margin="normal" style={{ padding: "5px" }}>
         Location
       </Typography>
-      <form onSubmit={() => update(zip, country)}>
+      <form onSubmit={formSubmission}>
         <TextField
           label="Zip Code"
           fullWidth
@@ -29,6 +35,7 @@ function Current({ location, update }) {
           required
           placeholder={location}
           value={zip}
+          onChange={zipChange}
         />
         <TextField
           label="Country"
@@ -37,7 +44,9 @@ function Current({ location, update }) {
           required
           placeholder={country}
           value={country}
+          onChange={countryChange}
         />
+        <button>Submit</button>
       </form>
       <Typography variant="h6">{location}</Typography>
     </Paper>

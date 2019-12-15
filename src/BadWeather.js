@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import Current from "./Current";
 import Weather from "./Weather";
+import axios from "axios";
 
 const styles = {
   root: {
@@ -30,11 +31,15 @@ const styles = {
 class BadWeather extends Component {
   constructor(props) {
     super(props);
-    this.state = { zip: "49441", country: "" };
+    this.state = { zip: "49441", country: "", loaded: false };
   }
 
   updateWeather = (zip, country) => {
-    this.setState({ zip: zip, country: country });
+    this.setState({ zip: zip, country: country, loaded: true });
+    async function fetchData() {
+      const response = await axios.get(``);
+    }
+    fetchData();
   };
 
   render() {
@@ -57,7 +62,11 @@ class BadWeather extends Component {
             <Current location={this.state.zip} update={this.updateWeather} />
           </Grid>
           <Grid item xs={12} md={8} lg={8}>
-            <Weather />
+            {this.state.loaded ? (
+              <Weather />
+            ) : (
+              <div className={classes.loader} />
+            )}
           </Grid>
         </Grid>
       </Paper>
